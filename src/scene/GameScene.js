@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import InputClass from "./InputClass";
 
 
 class GameScene extends Phaser.Scene {
@@ -24,7 +25,7 @@ class GameScene extends Phaser.Scene {
       "player",
       "assets/PNG/player/player-swiming.png",
       {
-        frameWidth: 81,
+        frameWidth: 80,
         frameHeight: 80,
       }
     );
@@ -65,7 +66,7 @@ class GameScene extends Phaser.Scene {
         start: 0,
         end: 6,
       }),
-      frameRate: 7,
+      frameRate: 60,
       repeat: -1,
     })
 
@@ -81,6 +82,12 @@ class GameScene extends Phaser.Scene {
     this.stonebottom = this.add.tileSprite(0, 50, 1280, 720, "bg-stonebottom")
     .setOrigin(0, 0)
     .setScale(1);
+
+    this.cursors = this.input.keyboard.createCursorKeys();
+    this.W = this.input.keyboard.addKey("W");
+    this.A = this.input.keyboard.addKey("A");
+    this.S = this.input.keyboard.addKey("S");
+    this.D = this.input.keyboard.addKey("D");
   }
 
   update() {
@@ -90,6 +97,22 @@ class GameScene extends Phaser.Scene {
     this.platformbottom.tilePositionX += 0.7;
     this.stonebottom.tilePositionX += 0.7;
     this.player.anims.play(`player`, true)
+
+    if (this.W.isDown) {
+      this.player.setVelocityY(-300);
+    } else if (this.S.isDown) {
+      this.player.setVelocityY(300);
+    } else {
+      this.player.setVelocityX(0);
+    }
+
+    if (this.A.isDown) {
+      this.player.setVelocityX(-300);
+    } else if (this.D.isDown) {
+      this.player.setVelocityX(300);
+    } else {
+      this.player.setVelocityX(0);
+    }
   }
 }
 
