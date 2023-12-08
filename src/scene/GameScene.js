@@ -1,5 +1,4 @@
 import Phaser from "phaser";
-import InputClass from "./InputClass";
 
 class GameScene extends Phaser.Scene {
   constructor() {
@@ -18,7 +17,7 @@ class GameScene extends Phaser.Scene {
     this.tankCount = 0;
     this.fishCount = 0;
     this.bubble = 5;
-    this.bubbles = []; //! P'Palm added here
+    this.bubbles = []; 
     this.score = 0;
     this.fishs;
   }
@@ -76,7 +75,6 @@ class GameScene extends Phaser.Scene {
   
 
   initCoins(numberOfCoins = 1) {
-    // ? looping for adding coins
     for (let i = 0; i < numberOfCoins; i++) {
       const randomX = Phaser.Math.Between(1280, 1290);
       const randomY = Phaser.Math.Between(95, 540);
@@ -89,7 +87,6 @@ class GameScene extends Phaser.Scene {
   }
 
   initTanks(numberOfTanks = 1) {
-    // ? looping for adding coins
     for (let i = 0; i < numberOfTanks; i++) {
       const randomX = Phaser.Math.Between(1350, 1400);
       const randomY = Phaser.Math.Between(95, 540);
@@ -102,7 +99,6 @@ class GameScene extends Phaser.Scene {
   }
 
   initFishs(numberOfFishs = 1) {
-    // ? looping for adding coins
     for (let i = 0; i < numberOfFishs; i++) {
       const randomX = Phaser.Math.Between(1300, 1310);
       const randomY = Phaser.Math.Between(95, 540);
@@ -117,14 +113,14 @@ class GameScene extends Phaser.Scene {
   bubbleInit(bubble = 1) {
     let bubbleX = [20, 80, 140, 200, 260];
     for (let i = 0; i < bubble; i++) {
-      let bubbleSprite = this.add //! P'Palm added here
+      let bubbleSprite = this.add 
         .sprite(bubbleX[i], 10, "bubble")
         .setOrigin(0, 0)
         .setScale(0.05)
         .setDepth(99)
         .setVisible(true);
 
-      this.bubbles.push(bubbleSprite); //! P'Palm added here
+      this.bubbles.push(bubbleSprite); 
     }
   }
 
@@ -153,9 +149,6 @@ class GameScene extends Phaser.Scene {
       .setDepth(5);
 
     this.player.setCollideWorldBounds(true)
-
-      let cursorImageUrl = 'url(assets/cursor/NormalSelectWater.ani), pointer';
-      this.game.canvas.style.cursor = cursorImageUrl;
 
     this.anims.create({
       key: "player",
@@ -213,7 +206,7 @@ class GameScene extends Phaser.Scene {
     );
 
     this.events.on(
-      //! P'Palm added here
+      
       "collectedTanks",
       function () {
         this.tankCount++;
@@ -288,12 +281,12 @@ class GameScene extends Phaser.Scene {
       initCount = 1;
     }
     this.time.addEvent({
-      delay: 5000,
+      delay: 10000,
       callback: this.bubbleDecrese,
       callbackScope: this,
       loop: true,
     });
-  } //! P'Palm added here
+  } 
 
   bubbleIncrease() {
     if (this.bubble < this.bubbles.length) {
@@ -301,21 +294,25 @@ class GameScene extends Phaser.Scene {
       this.bubble++;
     } else {
       console.log("Maximum number of bubbles reached.");
-      //* do fucntion or something
     }
   }
 
   bubbleDecrese() {
     if (this.bubble > 0) {
-      this.bubble--;
-      this.bubbles[this.bubble].setVisible(false);
+      this.bubbles[--this.bubble].setVisible(false);
     } else {
-    this.scene.start("GameOver"), { score: 100, level: 2 };
+      this.scene.start("GameOver", {score: this.score});
+      this.events.off("collectedCoins");
+      this.events.off("createNewCoins");
+      this.events.off("fishAttacked");
+      this.events.off("createNewFishs");
+      this.events.off("collectedTanks");
+      this.events.off("createNewTanks");
+      this.score = 0;
+      this.tankCount = 0;
+      this.bubble = 5;
+      this.bubbles = [];
     }
-  }
-  init(data) {
-      console.log('Score:', data.score); // 100
-      console.log('Level:', data.level); // 2
   }
 
   update(time) {
@@ -341,7 +338,7 @@ class GameScene extends Phaser.Scene {
     });
 
     this.fishs.children.iterate((fish) => {
-      fish.x -= 8;
+      fish.x -= 6;
       if (fish.x < 0) {
         fish.x = 1280;
         fish.y = Phaser.Math.Between(95, 540);

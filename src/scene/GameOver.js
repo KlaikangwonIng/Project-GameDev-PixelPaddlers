@@ -5,15 +5,29 @@ class GameOver extends Phaser.Scene {
         super({
             key: "GameOver",
         });
-        this.bg
-        this.retryButton
-        this.endbgMusic
+        this.bg;
+        this.retryButton;
+        this.endbgMusic;
+        this.data;
     }
+
+    
 
     preload() {
         this.load.image('bg-gameover', "assets/PNG/elements/gameover.png")
         this.load.image('retryButton',"assets/PNG/elements/retrybotton.png")
         this.load.audio('endbgMusic', "assets/Sound/gameover.mp3");
+    }
+
+    init(data) {
+        this.finalScore = data.score;
+        console.log(`Score: ${this.finalScore}`);
+    }
+
+    initUI() {
+        this.info = this.add
+          .text(570, 240, `Score: ${this.finalScore}`, { font: "32px Pixel", fill: "#ffffff" })
+          .setDepth(99);
     }
 
     create() {
@@ -27,7 +41,7 @@ class GameOver extends Phaser.Scene {
             .setDepth(0.92);
         this.retryButton.setInteractive();
         this.retryButton.on("pointerdown", () => {
-            this.scene.start("GameScene");
+            this.scene.start("MainMenu");
         });
         this.retryButton.on('pointerover',()=>{
             this.retryButton.setScale(0.25);
@@ -47,9 +61,10 @@ class GameOver extends Phaser.Scene {
             delay: 0
         }
         this.endbgMusic.play(endbgMusicConfig)
+        this.initUI();
+    }
+    update(delta, time) {
         
     }
-
-    update(delta, time) {}
 }
 export default GameOver;
