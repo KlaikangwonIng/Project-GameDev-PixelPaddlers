@@ -1,8 +1,6 @@
 import Phaser, { Utils } from "phaser";
 import * as Initialize from "../utils/Initialize";
 
-
-
 class InputClass extends Phaser.Scene {
   constructor() {
     super("InputClass");
