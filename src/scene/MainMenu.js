@@ -28,11 +28,6 @@ class MainMenu extends Phaser.Scene {
         })
         this.button.on('pointerout',()=>{
             this.button.setScale(0.2);
-
-        this.button = this.add.image(650, 470,'start_button').setScale(0.15,0.15)
-        this.button.setInteractive();
-        this.button.on("pointerdown",()=>{
-            this.scene.start("GameScene", {music: this.bgMusic})
         })
 
         this.bgMusic = this.sound.add('bgMusic');
