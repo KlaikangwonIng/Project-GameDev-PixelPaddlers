@@ -18,6 +18,17 @@ class MainMenu extends Phaser.Scene {
     create() {
         this.sound.removeAll();
         this.bg = this.add.image(0, 0,'background').setOrigin(0, 0)
+        this.button = this.add.image(650, 490,'start_button').setScale(0.15,0.15)
+        this.button.setInteractive();
+        this.button.on("pointerdown",()=>{
+            this.scene.start("GameScene", {music: this.bgMusic})
+        })
+        this.button.on('pointerover',()=>{
+            this.button.setScale(0.25);
+        })
+        this.button.on('pointerout',()=>{
+            this.button.setScale(0.2);
+
         this.button = this.add.image(650, 470,'start_button').setScale(0.15,0.15)
         this.button.setInteractive();
         this.button.on("pointerdown",()=>{
